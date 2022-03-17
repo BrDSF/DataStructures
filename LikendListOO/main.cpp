@@ -47,6 +47,7 @@ public:
   void insertAtPosition(int position, int value);
   void remove(int value);
   void viewList();
+  ~LinkedList();
 };
 
 void LinkedList::insertAtBegin(int value)
@@ -134,6 +135,17 @@ void LinkedList::insertAtPosition(int position, int value)
   }
   aux->setNext(pointer->getNext());
   pointer->setNext(aux);
+}
+
+LinkedList::~LinkedList()
+{
+  Node *aux = getHead(), *next = NULL;
+  while (aux != NULL)
+  {
+    next = aux->getNext();
+    delete (next);
+    aux = next;
+  }
 }
 
 int main()
