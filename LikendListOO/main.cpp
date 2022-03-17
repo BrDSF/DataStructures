@@ -3,17 +3,45 @@ using namespace std;
 
 class Node
 {
-public:
+private:
   int data;
   Node *next;
+
+public:
   Node(int val) : data(val), next(NULL) {}
+  int getData()
+  {
+    return this->data;
+  }
+  void setData(int data)
+  {
+    this->data = data;
+  }
+  Node *getNext()
+  {
+    return this->next;
+  }
+  void setNext(Node *next)
+  {
+    this->next = next;
+  }
 };
 
 class LinkedList
 {
-public:
+private:
   Node *head;
+
+public:
   LinkedList() : head(NULL) {}
+  Node *getHead()
+  {
+    return this->head;
+  }
+  void setHead(Node *head)
+  {
+    this->head = head;
+  }
   void insertAtBegin(int value);
   void insertAtEnd(int value);
   void insertAtPosition(int position, int value);
@@ -24,62 +52,62 @@ public:
 void LinkedList::insertAtBegin(int value)
 {
   Node *newNode = new Node(value);
-  newNode->next = this->head;
-  this->head = newNode;
+  newNode->setNext(getHead());
+  setHead(newNode);
 }
 
 void LinkedList::insertAtEnd(int value)
 {
-  if (head == NULL)
+  if (getHead() == NULL)
   {
     insertAtBegin(value);
     return;
   }
   Node *newNode = new Node(value);
-  Node *aux = this->head;
-  while (aux->next != NULL)
+  Node *aux = getHead();
+  while (aux->getNext() != NULL)
   {
-    aux = aux->next;
+    aux = aux->getNext();
   }
-  aux->next = newNode;
+  aux->setNext(newNode);
 }
 
 void LinkedList::remove(int value)
 {
-  if (this->head == NULL)
+  if (getHead() == NULL)
   {
     cout << "List Empty";
     return;
   }
-  if (this->head->data == value)
+  if (getHead()->getData() == value)
   {
-    Node *aux = this->head;
-    this->head = this->head->next;
+    Node *aux = getHead();
+    setHead(getHead()->getNext());
     delete (aux);
     return;
   }
-  Node *aux = this->head;
-  while (aux->next != NULL && aux->next->data != value)
+  Node *aux = getHead();
+  while (aux->getNext() != NULL && aux->getNext()->getData() != value)
   {
-    aux = aux->next;
+    aux = aux->getNext();
   }
-  if (aux->next == NULL)
+  if (aux->getNext() == NULL)
   {
     cout << "Value Not Fount";
     return;
   }
-  Node *toRemove = aux->next;
-  aux->next = aux->next->next;
+  Node *toRemove = aux->getNext();
+  aux->setNext(aux->getNext()->getNext());
   delete (toRemove);
 }
 
 void LinkedList::viewList()
 {
-  Node *aux = this->head;
+  Node *aux = getHead();
   while (aux != NULL)
   {
-    cout << aux->data << " ";
-    aux = aux->next;
+    cout << aux->getData() << " ";
+    aux = aux->getNext();
   }
   cout << endl;
 }
@@ -89,23 +117,23 @@ void LinkedList::insertAtPosition(int position, int value)
   Node *aux = new Node(value);
   if (position == 1)
   {
-    aux->next = this->head;
-    this->head = aux;
+    aux->setNext(getHead());
+    setHead(aux);
     return;
   }
   position--;
-  Node *pointer = this->head;
+  Node *pointer = getHead();
   while (pointer != NULL && --position)
   {
-    pointer = pointer->next;
+    pointer = pointer->getNext();
   }
   if (pointer == NULL)
   {
     cout << "Invalid Position" << endl;
     return;
   }
-  aux->next = pointer->next;
-  pointer->next = aux;
+  aux->setNext(pointer->getNext());
+  pointer->setNext(aux);
 }
 
 int main()
@@ -117,7 +145,7 @@ int main()
   list->insertAtBegin(4);
   list->insertAtEnd(5);
   list->viewList();
-  list->insertAtPosition(5, 10);
+  list->insertAtPosition(3, 10);
   list->viewList();
   list->remove(3);
   list->viewList();
