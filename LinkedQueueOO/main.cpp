@@ -4,20 +4,54 @@ using namespace std;
 
 class Node
 {
-public:
+private:
   int value;
   Node *next;
 
+public:
   Node(int val) : value(val), next(NULL) {}
+  void setNext(Node *next)
+  {
+    this->next = next;
+  };
+  void setValue(int value)
+  {
+    this->value = value;
+  }
+  int getValue()
+  {
+    return this->value;
+  }
+  Node *getNext()
+  {
+    return this->next;
+  }
 };
 
 class LinkedQueue
 {
-public:
+private:
   Node *front;
   Node *rear;
-  LinkedQueue() : front(NULL), rear(NULL) {}
 
+public:
+  LinkedQueue() : front(NULL), rear(NULL) {}
+  Node *getFront()
+  {
+    return this->front;
+  }
+  void setFront(Node *front)
+  {
+    this->front = front;
+  }
+  Node *getRear()
+  {
+    return this->rear;
+  }
+  void setRear(Node *rear)
+  {
+    this->rear = rear;
+  }
   void insert(int);
   void remove();
   void showElements();
@@ -27,29 +61,30 @@ public:
 void LinkedQueue::insert(int value)
 {
   Node *aux = new Node(value);
-  aux->value = value;
-  if (this->rear == NULL)
+  aux->setValue(value);
+  if (getRear() == NULL)
   {
-    this->front = this->rear = aux;
+    setFront(aux);
+    setRear(aux);
     return;
   }
-  this->rear->next = aux;
-  this->rear = aux;
+  getRear()->setNext(aux);
+  setRear(aux);
 }
 
 void LinkedQueue::remove()
 {
-  if (this->front == NULL)
+  if (getFront() == NULL)
   {
     cout << "There's no element in the queue";
     return;
   }
-  Node *aux = front;
-  this->front = front->next;
+  Node *aux = getFront();
+  setFront(getFront()->getNext());
 
-  if (this->front == NULL)
+  if (getFront() == NULL)
   {
-    this->rear = NULL;
+    setRear(NULL);
   }
   delete (aux);
 }
@@ -59,8 +94,8 @@ void LinkedQueue::showElements()
   Node *aux = this->front;
   while (aux != NULL)
   {
-    cout << aux->value << " ";
-    aux = aux->next;
+    cout << aux->getValue() << " ";
+    aux = aux->getNext();
   }
 }
 
@@ -69,7 +104,7 @@ LinkedQueue::~LinkedQueue()
   Node *aux = this->front;
   while (aux != NULL)
   {
-    this->front = aux->next;
+    this->front = aux->getNext();
     delete aux;
   }
 }
